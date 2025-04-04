@@ -1,0 +1,35 @@
+{
+  "name": "beichten-app",
+  "version": "1.0.0",
+  "description": "Anonymous confession board with SQLite database and admin moderation",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "init-db": "node server/database.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "body-parser": "^1.20.2",
+    "path": "^0.12.7",
+    "bcrypt": "^5.1.1",
+    "express-session": "^1.17.3",
+    "connect-sqlite3": "^0.9.13"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.x"
+  },
+  "repository": {},
+  "license": "MIT",
+  "keywords": [
+    "confession",
+    "anonymous",
+    "sqlite",
+    "moderation",
+    "node"
+  ]
+}

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Bereich</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Lion Head Decoration - Right Half Only */
+        .content-decoration {
+            position: relative;
+            min-height: 300px;
+        }
+        
+        .lion-head-right {
+            position: absolute;
+            right: -706px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1024px;
+            height: 1024px;
+            background-image: url('https://cdn.glitch.global/53b98a8f-f41e-455b-8578-b09bf840b5dc/lion-head-right-half.png?v=1743726651942');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 0x^;
+            pointer-events: none;
+        }
+        
+        /* Main Content Containers */
+        .admin-container {
+            position: relative;
+            padding: 0 60px 0 20px; /* More padding on right to accommodate lion */
+            z-index: 2;
+        }
+        
+        /* Existing Styles */
+        .login-section {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .user-info {
+            position: relative;
+            z-index: 0;
+            text-align: right;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .user-management-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .users-list {
+            margin-top: 1rem;
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .user-item:last-child {
+            border-bottom: none;
+        }
+        
+        .user-actions button {
+            margin-left: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        #addUserBtn {
+            float: right;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .modal-content button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+        }
+        
+        .no-beichten {
+            text-align: center;
+            color: #666;
+            padding: 1rem;
+        }
+        
+        .beichte {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .beichte-text {
+            margin-bottom: 0.5rem;
+        }
+        
+        .beichte-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .beichte-meta span {
+            margin-right: 1rem;
+        }
+        
+        .actions {
+            margin-top: 0.5rem;
+        }
+        
+        .actions button {
+            padding: 0.3rem 0.8rem;
+            margin-right: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .approve {
+            background: #28a745;
+            color: white;
+        }
+        
+        .reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .edit {
+            background: #ffc107;
+            color: black;
+        }
+        
+        .delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .lion-head-right {
+                display: none;
+            }
+            .admin-container {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔒 Admin Bereich</h1>
+        <nav>
+            <a href="/">Neue Beichte</a>
+            <a href="/blog">Öffentliche Beichten</a>
+            <a href="/admin">Admin</a>
+        </nav>
+    </header>
+    
+    <main class="content-decoration">
+        <div class="lion-head-right"></div>
+        
+        <div id="loginSection" class="login-section">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Benutzername" required>
+                <input type="password" id="password" placeholder="Passwort" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        
+        <div id="adminContent" style="display: none;">
+            <div class="user-info">
+                Angemeldet als: <span id="currentUser"></span>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+                <button id="changePasswordBtn" class="change-password-btn">Passwort ändern</button>
+            </div>
+            
+            <div class="admin-container">
+                <section class="pending-section">
+                    <h2>🔄 Ausstehende Beichten</h2>
+                    <div id="pendingList" class="thought-bubbles">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+                
+                <section class="approved-section">
+                    <h2>✅ Freigegebene Beichten</h2>
+                    <div id="approvedList" class="thought-bubbles">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+                
+                <section class="user-management-section" id="userManagementSection">
+                    <h2>👥 Benutzerverwaltung <button id="addUserBtn">+ Moderator hinzufügen</button></h2>
+                    <div id="usersList" class="users-list">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Change Password Modal -->
+            <div id="passwordModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Passwort ändern</h2>
+                    <form id="changePasswordForm">
+                        <input type="password" id="currentPassword" placeholder="Aktuelles Passwort" required>
+                        <input type="password" id="newPassword" placeholder="Neues Passwort" required>
+                        <input type="password" id="confirmPassword" placeholder="Neues Passwort bestätigen" required>
+                        <button type="submit">Passwort ändern</button>
+                        <button type="button" id="cancelPasswordChange">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Add User Modal -->
+            <div id="userModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2 id="userModalTitle">Moderator hinzufügen</h2>
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <input type="text" id="modalUsername" placeholder="Benutzername" required>
+                        <input type="password" id="modalPassword" placeholder="Passwort" required>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="cancelUserModal">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Edit Confession Modal -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Beichte bearbeiten</h2>
+                    <form id="editForm">
+                        <input type="hidden" id="editBeichteId">
+                        <textarea id="editText" rows="4" required></textarea>
+                        <div>
+                            <label>Alter (optional):</label>
+                            <input type="number" id="editAge" min="1" max="120">
+                        </div>
+                        <div>
+                            <label>Geschlecht (optional):</label>
+                            <select id="editGender">
+                                <option value="">Keine Angabe</option>
+                                <option value="männlich">Männlich</option>
+                                <option value="weiblich">Weiblich</option>
+                                <option value="divers">Divers</option>
+                            </select>
+                        </div>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="cancelEdit">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>
