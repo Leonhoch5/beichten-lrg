@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beichte einreichen</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>💭 Beichte einreichen</h1>
+      <nav>
+        <a href="/">Neue Beichte</a>
+        <a href="/blog">Öffentliche Beichten</a>
+        <a href="/admin">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="submission-container">
+        <div class="rules">
+          <h2>Regeln für Beichten</h2>
+          <ul>
+            <li>Maximal 200 Zeichen</li>
+            <li>Keine persönlichen Daten</li>
+            <li>Keine Hassrede</li>
+            <li>Admin muss freischalten</li>
+          </ul>
+        </div>
+
+        <form id="beichteForm" class="thought-form">
+          <div class="form-header">
+            <span class="emoji">💭</span>
+            <h3>Deine Beichte</h3>
+          </div>
+          <textarea
+            id="beichteText"
+            maxlength="200"
+            required
+            placeholder="Schreibe hier deine anonyme Beichte..."
+          ></textarea>
+          <div class="form-footer">
+            <div class="char-count"><span id="charCount">0</span>/200</div>
+            <button type="submit">Absenden</button>
+          </div>
+
+          <div class="optional-fields">
+            <h4>Optionale Angaben:</h4>
+            <div class="field-group">
+              <label> Klassenstufe: </label>
+
+              <select name="class" id="class">
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              <label>
+                Geschlecht:
+                <select id="gender">
+                  <option value="">Keine Angabe</option>
+                  <option value="männlich">Männlich</option>
+                  <option value="weiblich">Weiblich</option>
+                  <option value="divers">Divers</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>Alle Beichten werden anonym veröffentlicht nach Prüfung.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/user.js"></script>
+  </body>
+</html>
