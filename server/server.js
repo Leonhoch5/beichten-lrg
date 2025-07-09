@@ -8,7 +8,7 @@ const routes = require('./routes');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 // Create database directory if it doesn't exist
 const dbDir = path.join(__dirname, 'database');
@@ -30,7 +30,7 @@ app.use(session({
     secret: 'your-secret-key-here', // CHANGE THIS IN PRODUCTION!
     resave: false,
     saveUninitialized: false,
-    cookie: { 
+    cookie: {
         secure: false, // Set to true if using HTTPS
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     }
